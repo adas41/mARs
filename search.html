@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>mARs: Mobile Augmented Reality Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+ 
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> 
+	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
+	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
+	<script type="text/javascript" src="https://raw.github.com/padolsey/prettyPrint.js/master/prettyprint.js"></script>
+
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> 
+	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
+	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
+	<script type="text/javascript" src="https://raw.github.com/padolsey/prettyPrint.js/master/prettyprint.js"></script>
+	
+	<script type="text/javascript" src="js/jquery-ui-1.10.1.custom.min.js"></script>
+	
+	
+	<script type="text/javascript">
+	
+		var coordinates = {
+			latitude: 0.0,
+			longitude: 0.0
+		};
+		
+		function getLocation(){
+		  $("#txtSearchTerm").val("");
+		  if (navigator.geolocation){
+			navigator.geolocation.getCurrentPosition(showPosition);
+		  }
+		  else{
+			alert("Geolocation is not supported by this browser!");
+		  }
+		}
+		function showPosition(position){
+		  coordinates.latitude = position.coords.latitude;
+		  coordinates.longitude = position.coords.longitude;
+		  displayOnMap(position);
+		}
+		
+		
+		function displayOnMap(position) {
+			var infowindow = new google.maps.InfoWindow({content: ""});
+			
+				
+				myOptions = {
+					zoom: 12,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+				
+				map = new google.maps.Map(document.getElementById("map-content"),myOptions);
+				
+				initialLocation = new google.maps.LatLng(coordinates.latitude, coordinates.longitude);
+
+				
+				marker = new google.maps.Marker({
+					position: initialLocation,
+					map: map,
+					title: "You are here",
+					icon: "./assets/img/marker.png"	
+				});
+				
+				
+				map.setCenter(initialLocation);
+				
+					   google.maps.event.addListener(marker, 'click', function() {
+						 infowindow.setContent(this.title);
+						 infowindow.open(map,this);  
+					  });
+			}
+		
+		
+		
+	</script>
+	
+		
+	<script type="text/javascript" src="./service/yelpSearch.js"></script>
+	
+	<script type="text/javascript">
+		function callService(){
+			
+			callYelpSearch(document.getElementById('txtSearchTerm').value);
+		}
+		
+	</script>	
+								   
+								   
+								   
+  </head>
+
+  <body onload="javascript:getLocation();">
+	
+		
+	<div style="background-color:black; marging:5px; padding: 10px; border-radius: 10px; border: 1px solid white">
+		<div class="brand" href="#" style="margin-top:5px"><span style="font-weight:bold;font-size:2em;color:white;font-family:calibri">mARs: Mobile Augmented Reality Search</span></div>
+	</div>
+
+    <div class="container">
+
+   
+		<div style="width:100%;margin:10px;">
+			<input id="txtSearchTerm" type="text" style="width:30%;vertical-align:top" /> <button style="color:#2B65EC;" onclick="javascript:callService();">Search &raquo;</button>
+		</div>	
+
+		<div style="width:60%; height:400px; float:left; margin:10px;border:1px solid black;border-radius:0px; background-color: #fff;" id="map-content"></div>
+	
+	
+    </div> <!-- /container -->
+
+
+  </body>
+</html>
+
