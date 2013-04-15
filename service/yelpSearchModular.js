@@ -1,5 +1,22 @@
 function callYelpSearch(searchTerm){
-		
+	
+	
+	/*for(i=0;i<friendArr.length;i++){
+		if(friendArr[i][2] != undefined){
+			checkIn = friendArr[i][2];
+			for(j=0;j<checkIn.length;j++){
+				if(getProximity(coordinates.latitude,coordinates.longitude,checkIn[j].place.location.latitude,checkIn[j].place.location.longitude) <= 160934){
+					checkinObjArray.push([checkIn[j].from.name,checkIn[j].place.name,checkIn[j].place.location.latitude,checkIn[j].place.location.longitude,'https://graph.facebook.com/'+friendArr[i][0]+'/picture']);
+				}
+			}
+		}
+	}*/
+	
+	// 0: name, 1: place, 2: latitude, 3: longitude, 4: picture
+	/*for(i=0;i<checkinObjArray.length;i++){
+		//console.log(checkinObjArray[i][0]+" checked in @ "+checkinObjArray[i][1]);
+	}*/
+	
 	var auth = { 
 	 
 	  consumerKey: "iqVWnfpGmCiuLr0y6Ydf6A", 

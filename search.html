@@ -7,28 +7,30 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
- 
-	
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> 
-	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
-	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
-	<script type="text/javascript" src="https://raw.github.com/padolsey/prettyPrint.js/master/prettyprint.js"></script>
-
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> 
-	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
-	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
-	<script type="text/javascript" src="https://raw.github.com/padolsey/prettyPrint.js/master/prettyprint.js"></script>
 	
-	<script type="text/javascript" src="js/jquery-ui-1.10.1.custom.min.js"></script>
+	<script type="text/javascript" src="./assets/js/jquery1.6.1.js"></script>
+	<script type="text/javascript" src="./assets/js/oauth.js"></script>
+	<script type="text/javascript" src="./assets/js/sha1.js"></script>
+	<script type="text/javascript" src="./assets/js/jquery-ui-1.10.1.custom.min.js"></script>
+	<script type="text/javascript" src="./assets/js/haversine.js"></script>
+	
 	
 	
 	<script type="text/javascript">
+	
+	
 	
 		var coordinates = {
 			latitude: 0.0,
 			longitude: 0.0
 		};
+		
+		var thresholdDistance = 500; // in metres
+				
+		var checkinObjArray = [];
+		
+		var crimeObjArray = [];
 		
 		function getLocation(){
 		  $("#txtSearchTerm").val("");
@@ -43,6 +45,8 @@
 		  coordinates.latitude = position.coords.latitude;
 		  coordinates.longitude = position.coords.longitude;
 		  displayOnMap(position);
+		  getCheckinData();
+		  getCrimeData();
 		}
 		
 		
@@ -75,20 +79,20 @@
 						 infowindow.open(map,this);  
 					  });
 			}
-		
+			
 		
 		
 	</script>
 	
-		
 	<script type="text/javascript" src="./service/yelpSearch.js"></script>
-	
+	<script type="text/javascript" src="./service/fbCheckin.js"></script>
+	<script type="text/javascript" src="./service/yourmapper.js"></script>
+
 	<script type="text/javascript">
+		
 		function callService(){
-			
 			callYelpSearch(document.getElementById('txtSearchTerm').value);
 		}
-		
 	</script>	
 								   
 								   
