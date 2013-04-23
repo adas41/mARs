@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>mARs: Mobile Augmented Reality Search</title>
+
+    <meta name="viewport" content="target-densitydpi=device-dpi, width = 450, user-scalable = 0" /> 
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <style>
+	@font-face {
+    font-family: '4_star_face_fontmedium';
+    src: url('http://www.stewot.com/wot/mobile/4starfac-webfont.eot');
+    src: url('http://www.stewot.com/wot/mobile/4starfac-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://www.stewot.com/wot/mobile/4starfac-webfont.woff') format('woff'),
+         url('http://www.stewot.com/wot/mobile/4starfac-webfont.ttf') format('truetype'),
+         url('http://www.stewot.com/wot/mobile/4starfac-webfont.svg#4_star_face_fontmedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+div, input, button
+{
+font-family:4_star_face_fontmedium;
+}
+
+#fonttry
+{
+font-family:4_star_face_fontmedium;
+}
+	</style>
+ 
+	<!-- Include the ARchitect library --> 
+	<script src="architect://architect.js"></script> 
+	<!-- Include the ARchitect Desktop Engine for testing on a desktop browser--> 
+	<script type="text/javascript" src="./ade.js"></script> 
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> 
+	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
+	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
+	
+	
+	
+	
+	<script type="text/javascript">
+	
+		var coordinates = {
+			latitude: 0.0,
+			longitude: 0.0
+		};
+		
+		function getLocation(){
+		  $("#txtSearchTerm").val("");
+		  if (navigator.geolocation){
+			navigator.geolocation.getCurrentPosition(showPosition);
+		  }
+		  else{
+			alert("Geolocation is not supported by this browser!");
+		  }
+		}
+		function showPosition(position){
+		  coordinates.latitude = position.coords.latitude;
+		  coordinates.longitude = position.coords.longitude;
+		  
+		}
+		
+		
+		
+	</script>
+	
+		
+	<script type="text/javascript" src="http://www.stewot.com/wot/web/ar-test/yelpSearch.js"></script>
+	
+	<script type="text/javascript">
+		function callService(){
+			
+			callYelpSearch(document.getElementById('txtSearchTerm').value);
+			document.getElementById('txtSearchTerm').value = '';
+		}
+		
+	</script>	
+								   
+								   
+								   
+  </head>
+
+  <body onload="javascript:getLocation();">
+	
+		
+	<!--<div style="background-color:black; marging:5px; padding: 10px; border-radius: 10px; border: 1px solid white">
+		<div class="brand" href="#" style="margin-top:5px"><span style="font-weight:bold;font-size:2em;color:white;font-family:calibri">mARs: Mobile Augmented Reality Search</span></div>
+	</div>-->
+
+    <div class="container">
+
+   
+		<div style="width:100%;margin:10px;">
+			<input id="txtSearchTerm" type="text" style="width:70%; vertical-align:middle; height:40px; font-family: 4_star_face_fontmedium; font-size: 1.2em" /> <button id='fonttry' style="width:25%; height:40px; font-size:1.2em" onclick="javascript:callService();">Search &raquo;</button>
+		</div>	
+	
+	
+    </div> <!-- /container -->
+
+
+  </body>
+</html>
+

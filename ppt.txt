@@ -1,0 +1,22 @@
+* Search term used to query multiple endpoints in Yelp // Business, Location and Deals. RESTful calls made from mARs' programmable service layer with AJAX with OAuth 1.0 authentication. By programmable we mean that we don't construct each call separately instead use our service layer's API to construct calls for all the services.
+
+* Business and location information from Yelp used to query coupon and deal information from 8coupons web services and business. //Along with Yelp's own deals endpoint information we are able to identify business locations that have deals going.   
+
+* Business and location information also used to query Facebook's Graph API to find checkins from friends in that particular location.
+// By using Graph API's latest migration we were also able to include geo-tagged status updates besides checkins made using smart phones.
+
+* Yourmapper's API gives access to geo-tagged crime data which we use to flag sensitive business locations.
+
+* Geolocation data for each business is used to create geoobjects that are then rendered in the camera's FOV. 
+
+* Rendering is done with Wikitude API's HTMLDrawable elements. // as interactive DIV elements. 
+
+
+
+Channels 
+
+// Debugging is a pain. ADE gives just an object map. The HTMLDrawables rendered on the screen are not part of the DOM. 
+
+// Limit on Facebook's Checkin API allows users to make 600 calls every 600 seconds. So for this we had to restrict querying to only for friends who are from the same city as the user but that also means we may potentially miss out on checkins from friends from other cities  who have a checkin at a POI.
+
+// Each service has its own ID which don't necessarily conform. So we had to basically to do string processing and geolocation match to pin-point a business in two or more separate services. 

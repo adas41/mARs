@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+  <meta charset="utf-8">
     <title>mARs: Mobile Augmented Reality Search</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport" content="target-densitydpi=device-dpi, width = 450, user-scalable = 0" /> 
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
     <meta name="description" content="">
     <meta name="author" content="">
-
+	
+    <!-- Include the ARchitect library --> 
+	<script src="architect://architect.js"></script> 
+	
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
 	
+	<!-- Include the ARchitect Desktop Engine for testing on a desktop browser--> 
+	<script type="text/javascript" src="./assets/js/ade.js"></script> 
 	<script type="text/javascript" src="./assets/js/jquery1.6.1.js"></script>
 	<script type="text/javascript" src="./assets/js/oauth.js"></script>
 	<script type="text/javascript" src="./assets/js/sha1.js"></script>
@@ -44,12 +51,13 @@
 		function showPosition(position){
 		  coordinates.latitude = position.coords.latitude;
 		  coordinates.longitude = position.coords.longitude;
-		  displayOnMap(position);
+		  //displayOnMap(position);
 		  getCheckinData();
+		  //login();
 		  getCrimeData();
 		}
 		
-		
+		/*
 		function displayOnMap(position) {
 			var infowindow = new google.maps.InfoWindow({content: ""});
 			
@@ -80,7 +88,7 @@
 					  });
 			}
 			
-		
+		*/
 		
 	</script>
 	
@@ -102,18 +110,19 @@
   <body onload="javascript:getLocation();">
 	
 		
-	<div style="background-color:black; marging:5px; padding: 10px; border-radius: 10px; border: 1px solid white">
+	<!--<div style="background-color:black; marging:5px; padding: 10px; border-radius: 10px; border: 1px solid white">
 		<div class="brand" href="#" style="margin-top:5px"><span style="font-weight:bold;font-size:2em;color:white;font-family:calibri">mARs: Mobile Augmented Reality Search</span></div>
-	</div>
+	</div>-->
 
     <div class="container">
 
    
+		
 		<div style="width:100%;margin:10px;">
-			<input id="txtSearchTerm" type="text" style="width:30%;vertical-align:top" /> <button style="color:#2B65EC;" onclick="javascript:callService();">Search &raquo;</button>
-		</div>	
+			<input id="txtSearchTerm" type="text" style="width:70%; vertical-align:middle; height:40px; font-family: 4_star_face_fontmedium; font-size: 1.2em" /> <button id='fonttry' style="width:25%; height:40px; font-size:1.2em" onclick="javascript:callService();">Search &raquo;</button>
+		</div>
 
-		<div style="width:60%; height:400px; float:left; margin:10px;border:1px solid black;border-radius:0px; background-color: #fff;" id="map-content"></div>
+		<!--div style="width:60%; height:400px; float:left; margin:10px;border:1px solid black;border-radius:0px; background-color: #fff;" id="map-content"></div>
 	
 	
     </div> <!-- /container -->

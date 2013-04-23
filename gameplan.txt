@@ -1,0 +1,14 @@
+A simple Drawable with three qualifiers - a deal icon(8coupon + Yelp), an alert icon(crime) friend DP(Facebook)
+
+for each_element1 in yelp search
+	if yelp deal exists
+		annotate deal_icon
+	for each_element2 in 8coupon_Search (list of merchant names)
+		if each_element1 = each_element2
+			annotate deal_icon
+	for each_element3 in Facebook_Search (list of friends' checkin data)
+		if each_element1 is in a 1mi radius of each_element3
+			annotate FB_icon
+	for each_element4 in Yourmapper_Search (list of crime data)
+		if each_element1 is in a 1mi radius of each_element4
+			annotate alert_icon		

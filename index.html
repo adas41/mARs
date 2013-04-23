@@ -1,169 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-	<meta charset="UTF-8"></meta>
-	<title>mARs: Mobile Augmented Reality Search</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+  <meta charset="utf-8">
+    <title>mARs: Mobile Augmented Reality Search</title>
+
+    <meta name="viewport" content="target-densitydpi=device-dpi, width = 450, user-scalable = 0" /> 
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> 
     <meta name="description" content="">
     <meta name="author" content="">
-	<head>
-		<script src="http://connect.facebook.net/en_US/all.js"></script>
-		<script type="text/javascript" src="./assets/js/jquery.1.9.js"></script>
-	</head>
 	
-	<body>
-
-
-		<!-- Facebook login -->
-			<div id="fb-root"></div>
-			<script>
-			  // Additional JS functions here
-			  window.fbAsyncInit = function() {
-				FB.init({
-				  appId      : '1296816550457650', // App ID
-				  channelUrl : 'http://localhost/mARs/channel.html', // Channel File
-				  status     : true, // check login status
-				  cookie     : true, // enable cookies to allow the server to access the session
-				  xfbml      : true  // parse XFBML
-				});
-
-				// Additional init code here
-				FB.getLoginStatus(function(response) {
-				  if (response.status === 'connected') {
-					// connected
-					testAPI();
-				  } else if (response.status === 'not_authorized') {
-					// not_authorized
-					login();
-				  } else {
-					// not_logged_in
-					login();
-				  }
-				 });
-
-			  };
-			  
-			  
-			function login() {
-					FB.login(function(response) {
-						if (response.authResponse) {
-							console.log(response);
-							// connected
-						} else {
-							// cancelled
-						}
-					}, {scope: 'user_location,friends_location,friends_online_presence,user_status,user_checkins,friends_status '});
-			}
-			
-			
-			function testAPI() {
-				console.log('Welcome!  Fetching your information.... ');
-				FB.api('me', function(response) {
-					console.log('Good to see you, ' + response.name + '.');
-				});
-				
-				/*FB.api('559348503/checkins', function(response) {
-					//console.log(response.data);
-					if(response.data) {
-						$.each(response.data,function(index,checkIn) {
-							console.log(checkIn.from.name+": "+checkIn.place.location.latitude+", "+checkIn.place.location.longitude);
-							//console.log(friend.name + ' has id:' + friend.id);
-						});
-					} else {
-						alert("Error!");
-					}
-				});*/
-				
-				var myLocation;
-				FB.api('me?fields=location', function(response) {
-					console.log(response);
-					window.myLocation = response.location.id;
-					getFriendsCheckInData();
-				});
-				
-				
-				
-				
-				
-				
-				
-				/*FB.api('/me/checkins', function(response) {
-					console.log(response);
-				});*/
+    <!-- Include the ARchitect library --> 
+	<script src="architect://architect.js"></script> 
 	
-				
-				/*FB.api('/search?friends', function(placesResponse){
-					console.log(placesResponse);
-				});*/
-				
-				
-				FB.api('me/permissions', function (response) {
-					//console.log(response.data);                           
-				} );
-			}
-			
-			
-			
-			
-			function getFriendsCheckInData() {
-			
-				console.log(window.myLocation);
-				
-				var today = new Date().getTime();
-			
-				FB.api('me/friends?fields=id,name,location', function(response) {
-					if(response.data) {
-						$.each(response.data,function(index,friend) {
-							//console.log(friend);
-							if (friend.hasOwnProperty('location')) {
-								
-								//console.log(friend.name+','+friend.location.id+','+myLocation)
-								friendLocation = ''+friend.location.id;
-								//console.log(friendLocation == myLocation);
-								//console.log(typeof myLocation);
-								if(friendLocation == myLocation){
-									//console.log('match');
-									FB.api(friend.id+'/checkins', function(response) {
-										if(response.data) {
-											$.each(response.data,function(index,checkIn) {
-												
-												var checkInDate = Date.parse(checkIn.created_time);
-												//console.log(today - checkInDate);
-												if((today - checkInDate) <= 7200000){
-													console.log(checkIn.from.name+": "+checkIn.place.location.latitude+", "+checkIn.place.location.longitude);
-													console.log('https://graph.facebook.com/'+friend.id+'/picture');
-												}
-												
-											});
-										} else {
-											//alert("Error!");
-											console.log(response.error.message);
-										}
-									});
-								}
-							}
-							
-							
-						});
-					} else {
-						//alert("Error!");
-						console.log(response.error.message);
-					}
-				});
-			}
-			
-
-			  // Load the SDK Asynchronously
-			  (function(d){
-				 var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-				 if (d.getElementById(id)) {return;}
-				 js = d.createElement('script'); js.id = id; js.async = true;
-				 js.src = "http://connect.facebook.net/en_US/all.js";
-				 ref.parentNode.insertBefore(js, ref);
-			   }(document));
-			   
-			  
-			   
-			</script>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
 	
-	</body>
+	<!-- Include the ARchitect Desktop Engine for testing on a desktop browser--> 
+	<script type="text/javascript" src="./assets/js/ade.js"></script> 
+	<script type="text/javascript" src="./assets/js/jquery1.6.1.js"></script>
+	<script type="text/javascript" src="./assets/js/oauth.js"></script>
+	<script type="text/javascript" src="./assets/js/sha1.js"></script>
+	<script type="text/javascript" src="./assets/js/jquery-ui-1.10.1.custom.min.js"></script>
+	<script type="text/javascript" src="./assets/js/haversine.js"></script>
+	
+	<script type="text/javascript">
+	
+		var coordinates = {
+			latitude: 0.0,
+			longitude: 0.0
+		};
+		
+		var thresholdDistance = 500; // in metres
+				
+		var checkinObjArray = [];
+		
+		var crimeObjArray = [];
+		
+		function getLocation(){
+		  $("#txtSearchTerm").val("");
+		  if (navigator.geolocation){
+			navigator.geolocation.getCurrentPosition(showPosition);
+		  }
+		  else{
+			alert("Geolocation is not supported by this browser!");
+		  }
+		}
+		function showPosition(position){
+		  coordinates.latitude = position.coords.latitude;
+		  coordinates.longitude = position.coords.longitude;
+		  getCheckinData();
+		  getCrimeData();
+		}
+		
+	</script>
+	
+	<script type="text/javascript" src="./service/yelpSearch.js"></script>
+	<script type="text/javascript" src="./service/fbCheckin.js"></script>
+	<script type="text/javascript" src="./service/yourmapper.js"></script>
+
+	<script type="text/javascript">
+		
+		function callService(){
+			callYelpSearch(document.getElementById('txtSearchTerm').value,document.getElementById('radius').value);
+		}
+		
+		function updateSlider(value){
+			$("#radius-display").text(value+"m");
+		}
+		
+	</script>							   
+								   
+  </head>
+
+  <body onload="javascript:getLocation();">
+
+    <div class="container">
+		<div style="width:100%;margin:10px;">
+			<input id="txtSearchTerm" type="text" style="width:76%; vertical-align:middle; height:40px; font-family: 4_star_face_fontmedium; font-size: 1.2em" /> 
+			<img src = "./assets/img/search.png" style = "vertical-align:middle;border: 1px grey" height = "60" width = "60" onclick="javascript:callService();"/>
+		</div>
+		
+		<div id="status"  style="display:none;position:absolute;top:40%;left:30%;padding:20px;border-radius:5px;background-color:rgba(62,53,53,0.7);color:white;font-size:2em;">
+		</div>
+		
+		<center>
+			<div id="radius-display" style="position:absolute;left:40%;bottom:100px;width:90px;height:30px;background:rgba(62,53,53,0.7);border:1px white;border-radius:5px;font-size:1.5em;color:white;text-align:center;">
+				2000m
+			</div>
+		</center>
+		
+		<input type="range" id="radius" name="radius" value="2000" min="100" max="2500" step="100" style="margin-left:5%;margin-right:5%;position:absolute;bottom:75px;width:90%;" onchange="updateSlider(this.value);">
+		
+		<div id="login-status" style="margin-left:4%;margin-right:5%;pading: 10px;position:absolute;bottom:10px;width:88%;height:50px;line-height:50px;background:rgba(62,53,53,0.7);color:white;text-decoration:bold;font-size:1.4em;text-align:center">
+		</div>	
+    </div> 
+
+
+  </body>
 </html>
+
