@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function callYelpSearch(searchTerm,radius){
 	
 	//alert("Neelima Yelp is working");
@@ -22,6 +23,10 @@ function callYelpSearch(searchTerm,radius){
 	AR.radar.enabled = true;
 	var radarCircle = new AR.Circle(0.05, {style: {fillColor: '#83ff7b'}});
 	
+=======
+function callYelpSearch(searchTerm){
+		
+>>>>>>> 8079754a950b46b3092c6c10e62a5f87a70bd9b4
 	var auth = { 
 	 
 	  consumerKey: "iqVWnfpGmCiuLr0y6Ydf6A", 
@@ -45,8 +50,12 @@ function callYelpSearch(searchTerm,radius){
 
 	parameters.push(['term', terms]);
 	//parameters.push(['deals_filter', true]);
+<<<<<<< HEAD
 	parameters.push(['limit', 10]);
 	parameters.push(['radius_filter', radius]);
+=======
+	//parameters.push(['limit', 30]);
+>>>>>>> 8079754a950b46b3092c6c10e62a5f87a70bd9b4
 	parameters.push(['ll', coordinates.latitude+','+coordinates.longitude]);
 	parameters.push(['callback', 'cb']);
 	parameters.push(['oauth_consumer_key', auth.consumerKey]);
@@ -77,11 +86,17 @@ function callYelpSearch(searchTerm,radius){
 		  'dataType': 'jsonp',
 		  'jsonpCallback': 'cb',
 		  'beforeSend': function() {
+<<<<<<< HEAD
 				//$('#status').text("Loading...");
 				//$('#status').show("slow");
 		   },
 		  'success': function(data, textStats, XMLHttpRequest) {
 			noOfResults = data['businesses'].length;
+=======
+				$('#map-content').html("<img style='position:absolute;top:50%;left:50%' src='./assets/img/loading.gif' />");
+		   },
+		  'success': function(data, textStats, XMLHttpRequest) {
+>>>>>>> 8079754a950b46b3092c6c10e62a5f87a70bd9b4
 			updateMap(data['businesses']);
 		  },
 		  'complete': function(){
@@ -96,6 +111,20 @@ function callYelpSearch(searchTerm,radius){
 	
 	function updateMap(result){
 		
+<<<<<<< HEAD
+=======
+		var infowindow = new google.maps.InfoWindow({content: ""});
+		
+		map = new google.maps.Map(document.getElementById("map-content"),myOptions);
+		initialLocation = new google.maps.LatLng(coordinates.latitude, coordinates.longitude);	
+		marker = new google.maps.Marker({
+					position: initialLocation,
+					map: map,
+					title: "You are here",
+					icon: "./assets/img/marker.png"	
+		});
+			
+>>>>>>> 8079754a950b46b3092c6c10e62a5f87a70bd9b4
 		$.each(result, function(index, value){
 			
 			var hasDeal = false;
@@ -120,8 +149,88 @@ function callYelpSearch(searchTerm,radius){
 							if(value.deals[0].options != undefined){
 								temp = Math.ceil((value.deals[0].options[0].original_price - value.deals[0].options[0].price)/value.deals[0].options[0].original_price * 100);
 							}
+<<<<<<< HEAD
 							
 							deal = {title: value.deals[0].title, savingsPercent: temp};
+=======
+							
+							deal = {title: value.deals[0].title, savingsPercent: temp};
+							
+						}
+						
+						
+						for(i=0;i<checkinObjArray.length;i++){
+							if(yelpBusinessName == checkinObjArray[i][1]){
+								hasCheckin = true;
+								
+								reviewArray.push([checkinObjArray[i][0],checkinObjArray[i][4]]);
+								
+								/*for(i=0;i<reviewArray.length;i++){
+									if(reviewArray[i][1] == checkinObjArray[i][4]){
+										break;
+									}
+								}
+								if(i == reviewArray.length){
+									reviewArray.push([checkinObjArray[i][0],checkinObjArray[i][4]]);
+								}*/
+								
+								console.log("(Actual) Review for "+yelpBusinessName+" given by: "+checkinObjArray[i][0]);
+			
+								//break;
+								
+								
+							}
+							else{ 
+								if(getProximity(yelpBusinessLat,yelpBusinessLon,checkinObjArray[i][2],checkinObjArray[i][3]) <= thresholdDistance){
+									hasCheckin = true;
+								
+									reviewArray.push([checkinObjArray[i][0],checkinObjArray[i][4]]);
+								
+									console.log("(Approx.) Review for "+yelpBusinessName+" given by: "+checkinObjArray[i][0]);
+								}
+								
+							}
+						}
+						//console.log(reviewArray.length);
+						
+						for(i=0; i<crimeObjArray.length ;i++){
+							if(getProximity(yelpBusinessLat,yelpBusinessLon,crimeObjArray[i][0],crimeObjArray[i][1]) <= 1500){
+								hasAlert = true;
+							}
+						}
+						console.log(yelpBusinessName+" has crime "+hasAlert);	
+						
+						
+						// use hasDeal, hasCheckin and hasAlert while rendering the divs in FOV.
+						
+						
+						var content = "<b>"+value.name+"<img src= "+value.rating_img_url_large+" />";
+						
+						if(hasCheckin){
+							for(i=0;i<reviewArray.length;i++){
+								content += "<img src= "+reviewArray[i][1]+" />";
+							}
+						}
+						if(hasDeal){
+							content += "<img src= ./assets/img/deal.png /></br>"+deal.title+"</br>"+deal.savingsPercent+"%";
+						}
+						if(hasAlert){
+							content += "<img src= ./assets/img/alert.png />";
+						}
+						
+						
+							
+						temp = new google.maps.Marker({
+							position: new google.maps.LatLng(value.location.coordinate.latitude,value.location.coordinate.longitude),
+							map: map,
+							title: value.name,
+							icon:  './assets/img/poiMarker.png'
+						});
+						
+						google.maps.event.addListener(temp, 'click', function(i) {
+							infowindow.setContent(content);
+							infowindow.open(map,this);
+>>>>>>> 8079754a950b46b3092c6c10e62a5f87a70bd9b4
 							
 						}
 						

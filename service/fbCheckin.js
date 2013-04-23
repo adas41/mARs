@@ -2,7 +2,11 @@
 	window.fbAsyncInit = function() {
 		FB.init({
 			appId      : '1296816550457650', // App ID
+<<<<<<< HEAD
 			channelUrl : 'http://www.stewot.com/wot/web/channel.html', // Channel File
+=======
+			channelUrl : 'http://localhost/mARs/channel.html', // Channel File
+>>>>>>> 8079754a950b46b3092c6c10e62a5f87a70bd9b4
 			status     : true, // check login status
 			cookie     : true, // enable cookies to allow the server to access the session
 			xfbml      : true  // parse XFBML
@@ -10,6 +14,7 @@
 
 		// Additional init code here
 		FB.getLoginStatus(function(response) {
+<<<<<<< HEAD
 			$("#login-status").text("Logging in with pre-authenticated information");
 			if (response.status === 'connected') {
 				// connected
@@ -21,11 +26,22 @@
 			else if (response.status === 'not_authorized') {
 				// not_authorized
 				$("#login-status").text("Please authorize mARs to connect to your Facebook a/c");
+=======
+			if (response.status === 'connected') {
+				// connected
+				// getData();
+			} 
+			else if (response.status === 'not_authorized') {
+				// not_authorized
+>>>>>>> 8079754a950b46b3092c6c10e62a5f87a70bd9b4
 				login();
 			} 
 			else {
 				// not_logged_in
+<<<<<<< HEAD
 				$("#login-status").text("Please login to use mARs");
+=======
+>>>>>>> 8079754a950b46b3092c6c10e62a5f87a70bd9b4
 				login();
 			}
 		});
@@ -34,6 +50,7 @@
 			  
 			  
 	function login() {
+<<<<<<< HEAD
 		
 		FB.login(function(response) {
 		
@@ -45,6 +62,13 @@
 				});
 			} else {
 				//alert(response);
+=======
+		FB.login(function(response) {
+			if (response.authResponse) {
+				console.log(response);
+				// connected
+			} else {
+>>>>>>> 8079754a950b46b3092c6c10e62a5f87a70bd9b4
 				// cancelled
 			}
 		}, {scope: 'user_location,friends_location,friends_online_presence,user_status,user_checkins,friends_status '});
@@ -52,9 +76,15 @@
 			
 			
 	function getCheckinData() {
+<<<<<<< HEAD
 		//alert('Welcome!  Fetching your information.... ');
 		FB.api('me', function(response) {
 			//alert('Good to see you, ' + response.name + '.');
+=======
+		console.log('Welcome!  Fetching your information.... ');
+		FB.api('me', function(response) {
+			//console.log('Good to see you, ' + response.name + '.');
+>>>>>>> 8079754a950b46b3092c6c10e62a5f87a70bd9b4
 		});
 				
 			
